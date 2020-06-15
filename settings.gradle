@@ -1,0 +1,3 @@
+include ':blobbackground'
+include ':app'
+rootProject.name = "BlobBackgroundDemo"
