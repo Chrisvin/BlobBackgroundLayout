@@ -38,9 +38,7 @@ class Blob {
         repeatMode = REVERSE
     }
 
-    private val latestPath = Path().apply {
-        createPath(this)
-    }
+    private val latestPath = Path()
 
     private val fillPaint = Paint().apply {
         isAntiAlias = true
@@ -49,6 +47,8 @@ class Blob {
     }
 
     constructor(updateView: () -> Unit) {
+        updateRandomizedValues()
+        recreatePath()
         percentageAnimator.addUpdateListener {
             recreatePath()
             updateView.invoke()
