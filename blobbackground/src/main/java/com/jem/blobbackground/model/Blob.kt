@@ -21,14 +21,13 @@ class Blob {
         private val DEFAULT_ANIMATION_DURATION = 3000L
     }
 
-    private val radius =
-        DEFAULT_RADIUS
-    private val maxOffset =
-        DEFAULT_MAX_OFFSET
-    private val pointCount =
-        DEFAULT_POINT_COUNT
-    private val shouldAnimate =
-        DEFAULT_ANIMATION_STATE
+    private val radius = DEFAULT_RADIUS
+    private val maxOffset = DEFAULT_MAX_OFFSET
+    private val pointCount = DEFAULT_POINT_COUNT
+    private val shouldAnimate = DEFAULT_ANIMATION_STATE
+
+    private val offsetValues: ArrayList<Float> = arrayListOf()
+    private val angleValues: ArrayList<Float> = arrayListOf()
 
     private val percentageAnimator = ValueAnimator().apply {
         setFloatValues(0f, 100f)
