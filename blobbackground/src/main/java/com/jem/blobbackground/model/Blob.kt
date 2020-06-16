@@ -56,12 +56,18 @@ class Blob {
         percentageAnimator.start()
     }
 
-    private fun recreatePath(path: Path = latestPath) {
-        path.rewind()
-        createPath(path)
+    private fun updateRandomizedValues() {
+        offsetValues.clear()
+        angleValues.clear()
+        val baseTheta = RADIAN_MULTIPLIER / pointCount
+        for (i in 0 until pointCount) {
+            offsetValues.add((RandomUtil.getMultiplier() * maxOffset).coerceIn(-radius, radius))
+            angleValues.add(((i * baseTheta) + (RandomUtil.getFloat() * baseTheta)).toFloat())
+        }
     }
 
-    private fun createPath(path: Path = latestPath, points: ArrayList<PointF> = getPoints()) {
+    private fun recreatePath(path: Path = latestPath, points: ArrayList<PointF> = getPoints()) {
+        path.rewind()
         path.apply {
             var p0 = points[points.size - 1]
             var p1 = points[0]
@@ -75,6 +81,8 @@ class Blob {
             quadTo(p0.x, p0.y, (p0.x + points[0].x) / 2f, (p0.y + points[0].y) / 2f)
             close()
         }
+        PathUtil.scalePath(path, 0.5f, 0.5f)
+        PathUtil.translatePath(path, 750f, 1000f)
     }
 
     private fun getPoints(): ArrayList<PointF> {
