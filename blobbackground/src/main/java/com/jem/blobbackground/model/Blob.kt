@@ -60,9 +60,18 @@ class Blob {
         offsetValues.clear()
         angleValues.clear()
         val baseTheta = RADIAN_MULTIPLIER / pointCount
+        var previousAngle = 0f
+        var currentAngle = 0f
         for (i in 0 until pointCount) {
             offsetValues.add((RandomUtil.getMultiplier() * maxOffset).coerceIn(-radius, radius))
-            angleValues.add(((i * baseTheta) + (RandomUtil.getFloat() * baseTheta)).toFloat())
+            currentAngle = ((i * baseTheta) + (RandomUtil.getFloat() * baseTheta)).toFloat()
+            currentAngle = if (currentAngle - previousAngle > baseTheta / 3) {
+                currentAngle
+            } else {
+                currentAngle + (baseTheta.toFloat() / 3f)
+            }
+            angleValues.add(currentAngle)
+            previousAngle = currentAngle
         }
     }
 
