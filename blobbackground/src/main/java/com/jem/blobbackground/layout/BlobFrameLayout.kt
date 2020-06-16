@@ -36,10 +36,12 @@ class BlobFrameLayout : FrameLayout {
     }
 
     private fun init(attrs: AttributeSet?) {
+        setWillNotDraw(false)
         //TODO: Do stuff to the blobs based on the input attributes.
         blobs.add(Blob {
             invalidate()
         })
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas?) {
