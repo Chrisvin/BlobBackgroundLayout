@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.graphics.*
+import android.view.animation.*
 import com.jem.blobbackground.util.PathUtil
 import com.jem.blobbackground.util.RandomUtil
 import kotlin.math.cos
@@ -14,9 +15,9 @@ class Blob {
     companion object {
         private val RADIAN_MULTIPLIER = 2f * Math.PI
 
-        private val DEFAULT_POINT_COUNT = 13
+        private val DEFAULT_POINT_COUNT = 6
         private val DEFAULT_RADIUS = 1000f
-        private val DEFAULT_MAX_OFFSET = 400f
+        private val DEFAULT_MAX_OFFSET = 600f
         private val DEFAULT_ANIMATION_STATE = true
         private val DEFAULT_ANIMATION_DURATION = 3000L
     }
