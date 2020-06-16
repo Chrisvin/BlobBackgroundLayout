@@ -87,19 +87,14 @@ class Blob {
 
     private fun getPoints(): ArrayList<PointF> {
         return arrayListOf<PointF>().apply {
-            val baseTheta = RADIAN_MULTIPLIER / pointCount
             val animationMultiplier: Float =
                 ((if (shouldAnimate) percentageAnimator.animatedValue else 100f) as Float) / 100f
-            for (i in 0..pointCount) {
-                val offsetR = radius + (
-                        animationMultiplier *
-                                (RandomUtil.getMultiplier() * maxOffset).coerceIn(-radius, radius)
-//                                ((maxOffset * i) * (if (i % 2 == 0) -1f else 1f))
-                        )
+            for (i in 0 until pointCount) {
+                val offsetR = radius + (animationMultiplier * offsetValues[i])
                 add(
                     PointF(
-                        (offsetR * cos(i * baseTheta)).toFloat(),
-                        (offsetR * sin(i * baseTheta)).toFloat()
+                        (offsetR * cos(angleValues[i])),
+                        (offsetR * sin(angleValues[i]))
                     )
                 )
             }
