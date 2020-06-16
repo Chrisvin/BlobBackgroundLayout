@@ -10,7 +10,7 @@ import com.jem.blobbackground.util.RandomUtil
 import kotlin.math.cos
 import kotlin.math.sin
 
-class Blob {
+class Blob(private val updateView: () -> Unit) {
 
     companion object {
         private val RADIAN_MULTIPLIER = 2f * Math.PI
@@ -46,7 +46,7 @@ class Blob {
         color = Color.RED
     }
 
-    constructor(updateView: () -> Unit) {
+    init {
         updateRandomizedValues()
         recreatePath()
         percentageAnimator.addUpdateListener {
@@ -54,6 +54,12 @@ class Blob {
             updateView.invoke()
         }
         percentageAnimator.start()
+    }
+
+    fun recreateBlob() {
+        updateRandomizedValues()
+        recreatePath()
+        updateView.invoke()
     }
 
     private fun updateRandomizedValues() {

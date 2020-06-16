@@ -50,4 +50,18 @@ class BlobFrameLayout : FrameLayout {
         }
     }
 
+    fun recreateBlobs() {
+        blobs.forEach {
+            it.recreateBlob()
+        }
+    }
+
+    fun recreateBlob(index: Int) {
+        if (index < 0 || index >= blobs.size) {
+            recreateBlobs()
+        } else {
+            blobs[index].recreateBlob()
+        }
+    }
+
 }
