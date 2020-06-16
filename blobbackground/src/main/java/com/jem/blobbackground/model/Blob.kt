@@ -31,10 +31,9 @@ class Blob {
     private val angleValues: ArrayList<Float> = arrayListOf()
 
     private val percentageAnimator = ValueAnimator().apply {
-        setFloatValues(0f, 100f)
-        interpolator = BounceInterpolator()
-        duration =
-            DEFAULT_ANIMATION_DURATION
+        setFloatValues(50f, 100f)
+        interpolator = AccelerateDecelerateInterpolator()
+        duration = DEFAULT_ANIMATION_DURATION
         repeatCount = INFINITE
         repeatMode = REVERSE
     }
