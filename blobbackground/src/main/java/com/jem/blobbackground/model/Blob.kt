@@ -5,10 +5,11 @@ import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.graphics.*
 import android.view.animation.*
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnRepeat
 import com.jem.blobbackground.util.PathUtil
+import com.jem.blobbackground.util.PointUtil
 import com.jem.blobbackground.util.RandomUtil
-import kotlin.math.cos
-import kotlin.math.sin
 
 class Blob(private val updateView: () -> Unit) {
 
@@ -17,8 +18,8 @@ class Blob(private val updateView: () -> Unit) {
 
         private val DEFAULT_POINT_COUNT = 6
         private val DEFAULT_RADIUS = 1000f
-        private val DEFAULT_MAX_OFFSET = 600f
         private val DEFAULT_ANIMATION_STATE = true
+        private val DEFAULT_MAX_OFFSET = 0f
         private val DEFAULT_ANIMATION_DURATION = 3000L
     }
 
@@ -31,7 +32,7 @@ class Blob(private val updateView: () -> Unit) {
     private val angleValues: ArrayList<Float> = arrayListOf()
 
     private val percentageAnimator = ValueAnimator().apply {
-        setFloatValues(50f, 100f)
+        setFloatValues(0f, 100f)
         interpolator = AccelerateDecelerateInterpolator()
         duration = DEFAULT_ANIMATION_DURATION
         repeatCount = INFINITE
