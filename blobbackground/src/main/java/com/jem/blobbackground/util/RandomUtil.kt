@@ -19,7 +19,7 @@ object RandomUtil {
     }
 
     fun getMultiplier(): Float {
-        return 2f * (1f - random.nextFloat())
+        return 2f * (0.5f - random.nextFloat())
     }
 
 }
