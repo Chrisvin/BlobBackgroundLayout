@@ -5,7 +5,6 @@ import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.graphics.*
 import android.view.animation.*
-import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnRepeat
 import com.jem.blobbackground.util.PathUtil
 import com.jem.blobbackground.util.PointUtil
@@ -28,12 +27,10 @@ class Blob(private val updateView: () -> Unit) {
     private val pointCount = DEFAULT_POINT_COUNT
     private val shouldAnimate = DEFAULT_ANIMATION_STATE
 
-    private val startOffsetValues: ArrayList<Float> = arrayListOf()
-    private val startAngleValues: ArrayList<Float> = arrayListOf()
-    private val endOffsetValues: ArrayList<Float> = arrayListOf()
-    private val endAngleValues: ArrayList<Float> = arrayListOf()
+    private val startPoints: ArrayList<PointF> = arrayListOf()
+    private val endPoints: ArrayList<PointF> = arrayListOf()
 
-    private var _latestPointList: ArrayList<PointF> = arrayListOf()
+    private var _latestPoints: ArrayList<PointF> = arrayListOf()
 
     private val percentageAnimator = ValueAnimator().apply {
         setFloatValues(0f, 100f)
@@ -63,9 +60,9 @@ class Blob(private val updateView: () -> Unit) {
                 return@doOnRepeat
             }
             if (percentageAnimator.animatedValue as Float > 50f) {
-                updateRandomizedValues(startOffsetValues, startAngleValues)
+                updateRandomizedValues(startPoints)
             } else {
-                updateRandomizedValues(endOffsetValues, endAngleValues)
+                updateRandomizedValues(endPoints)
             }
         }
         percentageAnimator.start()
@@ -78,28 +75,25 @@ class Blob(private val updateView: () -> Unit) {
     }
 
     private fun updateRandomizedValues() {
-        updateRandomizedValues(startOffsetValues, startAngleValues)
-        updateRandomizedValues(endOffsetValues, endAngleValues)
+        updateRandomizedValues(startPoints)
+        updateRandomizedValues(endPoints)
     }
 
-    private fun updateRandomizedValues(
-        offsetValues: ArrayList<Float>,
-        angleValues: ArrayList<Float>
-    ) {
-        offsetValues.clear()
-        angleValues.clear()
+    private fun updateRandomizedValues(points: ArrayList<PointF>) {
+        points.clear()
         val baseTheta = RADIAN_MULTIPLIER / pointCount
         var previousAngle = 0f
         var currentAngle = 0f
         for (i in 0 until pointCount) {
-            offsetValues.add((RandomUtil.getMultiplier() * maxOffset).coerceIn(-radius, radius))
+            val offsetR =
+                radius + ((RandomUtil.getMultiplier() * maxOffset).coerceIn(-radius, radius))
             currentAngle = ((i * baseTheta) + (RandomUtil.getFloat() * baseTheta)).toFloat()
             currentAngle = if (currentAngle - previousAngle > baseTheta / 3) {
                 currentAngle
             } else {
                 currentAngle + (baseTheta.toFloat() / 3f)
             }
-            angleValues.add(currentAngle)
+            points.add(PointUtil.getPointOnCircle(offsetR, currentAngle))
             previousAngle = currentAngle
         }
     }
@@ -124,20 +118,21 @@ class Blob(private val updateView: () -> Unit) {
     }
 
     private fun getPoints(): ArrayList<PointF> {
-        if (startOffsetValues.size != pointCount || startAngleValues.size != pointCount || endOffsetValues.size != pointCount || endAngleValues.size != pointCount) {
-            return _latestPointList
+        if (startPoints.size != pointCount || endPoints.size != pointCount) {
+            return _latestPoints
         }
-        _latestPointList = arrayListOf<PointF>().apply {
+        _latestPoints = arrayListOf<PointF>().apply {
             val animationMultiplier: Float =
                 ((if (shouldAnimate) percentageAnimator.animatedValue else 100f) as Float) / 100f
             for (i in 0 until pointCount) {
-                val start =
-                    PointUtil.getPointOnCircle(radius + startOffsetValues[i], startAngleValues[i])
-                val end = PointUtil.getPointOnCircle(radius + endOffsetValues[i], endAngleValues[i])
-                add(PointUtil.getIntermediatePoint(start, end, animationMultiplier))
+                add(
+                    PointUtil.getIntermediatePoint(
+                        startPoints[i], endPoints[i], animationMultiplier
+                    )
+                )
             }
         }
-        return _latestPointList
+        return _latestPoints
     }
 
     fun drawPath(canvas: Canvas?) {
