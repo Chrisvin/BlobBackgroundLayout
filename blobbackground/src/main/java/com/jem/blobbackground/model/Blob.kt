@@ -59,6 +59,9 @@ class Blob(private val updateView: () -> Unit) {
             updateView.invoke()
         }
         percentageAnimator.doOnRepeat {
+            if (!shouldAnimate) {
+                return@doOnRepeat
+            }
             if (percentageAnimator.animatedValue as Float > 50f) {
                 updateRandomizedValues(startOffsetValues, startAngleValues)
             } else {
