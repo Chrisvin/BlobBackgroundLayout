@@ -11,7 +11,10 @@ import com.jem.blobbackground.util.PathUtil
 import com.jem.blobbackground.util.PointUtil
 import com.jem.blobbackground.util.RandomUtil
 
-class Blob(private val updateView: () -> Unit) {
+class Blob(
+    private val updateView: () -> Unit,
+    private val blobConfig: Configuration = Configuration()
+) {
 
     companion object {
         private val RADIAN_MULTIPLIER = 2f * Math.PI
