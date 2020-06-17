@@ -33,11 +33,6 @@ class Blob(
         }
     }
 
-    private val radius = DEFAULT_RADIUS
-    private val maxOffset = DEFAULT_MAX_OFFSET
-    private val pointCount = DEFAULT_POINT_COUNT
-    private val shouldAnimate = DEFAULT_ANIMATION_STATE
-
     private val startPoints: ArrayList<PointF> = arrayListOf()
     private val endPoints: ArrayList<PointF> = arrayListOf()
 
@@ -45,19 +40,13 @@ class Blob(
 
     private val percentageAnimator = ValueAnimator().apply {
         setFloatValues(0f, 100f)
-        interpolator = AccelerateDecelerateInterpolator()
-        duration = DEFAULT_ANIMATION_DURATION
+        interpolator = blobConfig.shapeAnimationInterpolator
+        duration = blobConfig.shapeAnimationDuration
         repeatCount = INFINITE
         repeatMode = REVERSE
     }
 
     private val latestPath = Path()
-
-    private val fillPaint = Paint().apply {
-        isAntiAlias = true
-        style = Paint.Style.FILL
-        color = Color.RED
-    }
 
     init {
         updateRandomizedValues()
@@ -67,7 +56,7 @@ class Blob(
             updateView.invoke()
         }
         percentageAnimator.doOnRepeat {
-            if (!shouldAnimate) {
+            if (!blobConfig.shouldAnimateShape) {
                 return@doOnRepeat
             }
             if (percentageAnimator.animatedValue as Float > 50f) {
@@ -92,19 +81,20 @@ class Blob(
 
     private fun updateRandomizedValues(points: ArrayList<PointF>) {
         points.clear()
-        val baseTheta = RADIAN_MULTIPLIER / pointCount
+        val baseTheta = RADIAN_MULTIPLIER / blobConfig.pointCount
         var previousAngle = 0f
         var currentAngle = 0f
-        for (i in 0 until pointCount) {
-            val offsetR =
-                radius + ((RandomUtil.getMultiplier() * maxOffset).coerceIn(-radius, radius))
+        for (i in 0 until blobConfig.pointCount) {
+            val offsetR = blobConfig.radius +
+                    ((RandomUtil.getMultiplier() * blobConfig.maxOffset)
+                        .coerceIn(-blobConfig.radius, blobConfig.radius))
             currentAngle = ((i * baseTheta) + (RandomUtil.getFloat() * baseTheta)).toFloat()
             currentAngle = if (currentAngle - previousAngle > baseTheta / 3) {
                 currentAngle
             } else {
                 currentAngle + (baseTheta.toFloat() / 3f)
             }
-            points.add(PointUtil.getPointOnCircle(offsetR, currentAngle))
+            points.add(PointUtil.getPointOnCircle(offsetR, currentAngle, blobConfig.blobCenterPosition))
             previousAngle = currentAngle
         }
     }
@@ -129,13 +119,13 @@ class Blob(
     }
 
     private fun getPoints(): ArrayList<PointF> {
-        if (startPoints.size != pointCount || endPoints.size != pointCount) {
+        if (startPoints.size != blobConfig.pointCount || endPoints.size != blobConfig.pointCount) {
             return _latestPoints
         }
         _latestPoints = arrayListOf<PointF>().apply {
             val animationMultiplier: Float =
-                ((if (shouldAnimate) percentageAnimator.animatedValue else 100f) as Float) / 100f
-            for (i in 0 until pointCount) {
+                ((if (blobConfig.shouldAnimateShape) percentageAnimator.animatedValue else 100f) as Float) / 100f
+            for (i in 0 until blobConfig.pointCount) {
                 add(
                     PointUtil.getIntermediatePoint(
                         startPoints[i], endPoints[i], animationMultiplier
@@ -147,7 +137,7 @@ class Blob(
     }
 
     fun drawPath(canvas: Canvas?) {
-        canvas?.drawPath(latestPath, fillPaint)
+        canvas?.drawPath(latestPath, blobConfig.paint)
     }
 
     data class Configuration(
