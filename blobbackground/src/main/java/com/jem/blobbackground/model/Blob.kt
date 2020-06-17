@@ -5,6 +5,7 @@ import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.graphics.*
 import android.view.animation.*
+import android.view.animation.Interpolator
 import androidx.core.animation.doOnRepeat
 import com.jem.blobbackground.util.PathUtil
 import com.jem.blobbackground.util.PointUtil
@@ -17,9 +18,16 @@ class Blob(private val updateView: () -> Unit) {
 
         private val DEFAULT_POINT_COUNT = 6
         private val DEFAULT_RADIUS = 1000f
-        private val DEFAULT_ANIMATION_STATE = true
         private val DEFAULT_MAX_OFFSET = 0f
-        private val DEFAULT_ANIMATION_DURATION = 3000L
+        private val DEFAULT_ANIMATION_STATE = true
+        private val DEFAULT_ANIMATION_DURATION = 2000L
+        private val DEFAULT_ANIMATION_INTERPOLATOR = LinearInterpolator()
+        private val DEFAULT_POSITION = PointF(0f, 0f)
+        private val DEFAULT_PAINT = Paint().apply {
+            isAntiAlias = true
+            style = Paint.Style.FILL
+            color = Color.RED
+        }
     }
 
     private val radius = DEFAULT_RADIUS
