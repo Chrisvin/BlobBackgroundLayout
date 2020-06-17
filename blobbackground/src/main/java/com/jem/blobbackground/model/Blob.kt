@@ -147,4 +147,14 @@ class Blob(private val updateView: () -> Unit) {
         canvas?.drawPath(latestPath, fillPaint)
     }
 
+    data class Configuration(
+        val pointCount: Int = DEFAULT_POINT_COUNT,
+        val radius: Float = DEFAULT_RADIUS,
+        val maxOffset: Float = DEFAULT_MAX_OFFSET,
+        val paint: Paint = DEFAULT_PAINT,
+        val shouldAnimateShape: Boolean = DEFAULT_ANIMATION_STATE,
+        val shapeAnimationDuration: Long = DEFAULT_ANIMATION_DURATION,
+        val shapeAnimationInterpolator: Interpolator = DEFAULT_ANIMATION_INTERPOLATOR,
+        val blobCenterPosition: PointF = DEFAULT_POSITION
+    )
 }
