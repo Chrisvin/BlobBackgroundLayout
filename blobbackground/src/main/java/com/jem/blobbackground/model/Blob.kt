@@ -28,8 +28,12 @@ class Blob(private val updateView: () -> Unit) {
     private val pointCount = DEFAULT_POINT_COUNT
     private val shouldAnimate = DEFAULT_ANIMATION_STATE
 
-    private val offsetValues: ArrayList<Float> = arrayListOf()
-    private val angleValues: ArrayList<Float> = arrayListOf()
+    private val startOffsetValues: ArrayList<Float> = arrayListOf()
+    private val startAngleValues: ArrayList<Float> = arrayListOf()
+    private val endOffsetValues: ArrayList<Float> = arrayListOf()
+    private val endAngleValues: ArrayList<Float> = arrayListOf()
+
+    private var _latestPointList: ArrayList<PointF> = arrayListOf()
 
     private val percentageAnimator = ValueAnimator().apply {
         setFloatValues(0f, 100f)
@@ -64,6 +68,14 @@ class Blob(private val updateView: () -> Unit) {
     }
 
     private fun updateRandomizedValues() {
+        updateRandomizedValues(startOffsetValues, startAngleValues)
+        updateRandomizedValues(endOffsetValues, endAngleValues)
+    }
+
+    private fun updateRandomizedValues(
+        offsetValues: ArrayList<Float>,
+        angleValues: ArrayList<Float>
+    ) {
         offsetValues.clear()
         angleValues.clear()
         val baseTheta = RADIAN_MULTIPLIER / pointCount
@@ -102,19 +114,20 @@ class Blob(private val updateView: () -> Unit) {
     }
 
     private fun getPoints(): ArrayList<PointF> {
-        return arrayListOf<PointF>().apply {
+        if (startOffsetValues.size != pointCount || startAngleValues.size != pointCount || endOffsetValues.size != pointCount || endAngleValues.size != pointCount) {
+            return _latestPointList
+        }
+        _latestPointList = arrayListOf<PointF>().apply {
             val animationMultiplier: Float =
                 ((if (shouldAnimate) percentageAnimator.animatedValue else 100f) as Float) / 100f
             for (i in 0 until pointCount) {
-                val offsetR = radius + (animationMultiplier * offsetValues[i])
-                add(
-                    PointF(
-                        (offsetR * cos(angleValues[i])),
-                        (offsetR * sin(angleValues[i]))
-                    )
-                )
+                val start =
+                    PointUtil.getPointOnCircle(radius + startOffsetValues[i], startAngleValues[i])
+                val end = PointUtil.getPointOnCircle(radius + endOffsetValues[i], endAngleValues[i])
+                add(PointUtil.getIntermediatePoint(start, end, animationMultiplier))
             }
         }
+        return _latestPointList
     }
 
     fun drawPath(canvas: Canvas?) {
