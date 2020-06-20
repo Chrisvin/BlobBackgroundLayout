@@ -1,14 +1,14 @@
 # BlobBackgroundLayout
 Android Layout Library with animated Blob Background
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-silver.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-silver.svg)](https://opensource.org/licenses/MIT) [![](https://jitpack.io/v/Chrisvin/BlobBackgroundLayout.svg)](https://jitpack.io/#Chrisvin/BlobBackgroundLayout) [![API](https://img.shields.io/badge/API-21%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=21)
 
 <img src="./screenrecording/demo_app.gif" width="200" />
 
 ## Demo app
 To run the demo project, clone the repository and run it via Android Studio.
 </br>(OR)
-</br>Download the latest demo apk from [releases](https://github.com/Chrisvin/LiquidSwipe/releases).
+</br>Download the latest demo apk from [releases](https://github.com/Chrisvin/BlobBackgroundLayout/releases).
 
 ## Usage
 #### Set up the dependency
@@ -23,7 +23,7 @@ allprojects {
 ```
 2. Add the BlobBackgroundLayout dependency in the build.gradle:
 ```
-implementation 'com.github.Chrisvin:BlobBackgroundLayout:1.0'
+implementation 'com.github.Chrisvin:BlobBackgroundLayout:1.1'
 ```
 
 #### Use a `BlobLayout` as the base container in your activity/fragments.
