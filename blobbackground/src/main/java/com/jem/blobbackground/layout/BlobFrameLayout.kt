@@ -4,11 +4,13 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import com.jem.blobbackground.base.BaseBlobLayout
+import com.jem.blobbackground.handler.BlobLayoutHandler
 import com.jem.blobbackground.model.Blob
 
-class BlobFrameLayout : FrameLayout {
+class BlobFrameLayout : FrameLayout, BaseBlobLayout {
 
-    private var blobs: ArrayList<Blob> = arrayListOf()
+    private val blobLayoutHandler = BlobLayoutHandler()
 
     constructor(context: Context) : super(context) {
         init(null)
@@ -37,33 +39,54 @@ class BlobFrameLayout : FrameLayout {
 
     private fun init(attrs: AttributeSet?) {
         setWillNotDraw(false)
-        //TODO: Do stuff to the blobs based on the input attributes.
-        blobs.add(Blob({
+        blobLayoutHandler.setOnViewUpdateListener {
             invalidate()
-        }, Blob.Configuration()))
+        }
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-        blobs.forEach {
-            it.drawPath(canvas)
-        }
+        blobLayoutHandler.onDraw(canvas)
     }
 
-    fun recreateBlobs() {
-        blobs.forEach {
-            it.recreateBlob()
-        }
+    override fun getBlobCount(): Int {
+        return blobLayoutHandler.getBlobCount()
     }
 
-    fun recreateBlob(index: Int) {
-        if (index < 0 || index >= blobs.size) {
-            recreateBlobs()
-        } else {
-            blobs[index].recreateBlob()
-        }
+    override fun addBlob(vararg blobConfig: Blob.Configuration) {
+        blobLayoutHandler.addBlob(*blobConfig)
     }
 
+    override fun removeBlobs() {
+        blobLayoutHandler.removeBlobs()
+    }
+
+    override fun removeBlob(index: Int) {
+        blobLayoutHandler.removeBlob(index)
+    }
+
+    override fun recreateBlobs() {
+        blobLayoutHandler.recreateBlobs()
+    }
+
+    override fun recreateBlob(index: Int) {
+        blobLayoutHandler.recreateBlob(index)
+    }
+
+    override fun getBlobConfigurations(): Array<Blob.Configuration> {
+        return blobLayoutHandler.getBlobConfigurations()
+    }
+
+    override fun getBlobConfiguration(index: Int): Blob.Configuration {
+        return blobLayoutHandler.getBlobConfiguration(index)
+    }
+
+    override fun updateBlobConfigurations(blobConfigs: Array<Blob.Configuration>) {
+        blobLayoutHandler.updateBlobConfigurations(blobConfigs)
+    }
+
+    override fun updateBlobConfiguration(blobConfig: Blob.Configuration, index: Int) {
+        blobLayoutHandler.updateBlobConfiguration(blobConfig, index)
+    }
 }
