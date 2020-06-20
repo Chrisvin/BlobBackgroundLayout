@@ -37,12 +37,12 @@ internal interface BaseBlobLayout {
     /**
      * Get all blobConfigurations
      */
-    fun getBlobConfigurations() : Array<Blob.Configuration>
+    fun getBlobConfigurations(): Array<Blob.Configuration>
 
     /**
      * Get configuration for Blob at index
      */
-    fun getBlobConfiguration(index: Int) : Blob.Configuration
+    fun getBlobConfiguration(index: Int): Blob.Configuration
 
     /**
      * Update all blobConfigurations

@@ -5,6 +5,7 @@ import com.jem.blobbackground.base.BaseBlobLayout
 import com.jem.blobbackground.model.Blob
 
 class BlobLayoutHandler : BaseBlobLayout {
+
     private val blobs: ArrayList<Blob> = arrayListOf()
     private var onViewUpdateCallback: (() -> Unit)? = null
 

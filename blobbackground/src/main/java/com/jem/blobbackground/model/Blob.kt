@@ -93,7 +93,13 @@ class Blob(
             } else {
                 currentAngle + (baseTheta.toFloat() / 3f)
             }
-            points.add(PointUtil.getPointOnCircle(offsetR, currentAngle, blobConfig.blobCenterPosition))
+            points.add(
+                PointUtil.getPointOnCircle(
+                    offsetR,
+                    currentAngle,
+                    blobConfig.blobCenterPosition
+                )
+            )
             previousAngle = currentAngle
         }
     }
@@ -149,7 +155,7 @@ class Blob(
             shouldAnimateShape = blobConfig.shouldAnimateShape,
             shapeAnimationDuration = blobConfig.shapeAnimationDuration,
             shapeAnimationInterpolator = blobConfig.shapeAnimationInterpolator,
-            blobCenterPosition =  blobConfig.blobCenterPosition
+            blobCenterPosition = blobConfig.blobCenterPosition
         )
     }
 
@@ -165,7 +171,7 @@ class Blob(
             this.shouldAnimateShape = config.shouldAnimateShape
             this.shapeAnimationDuration = config.shapeAnimationDuration
             this.shapeAnimationInterpolator = config.shapeAnimationInterpolator
-            this.blobCenterPosition =  config.blobCenterPosition
+            this.blobCenterPosition = config.blobCenterPosition
         }
     }
 

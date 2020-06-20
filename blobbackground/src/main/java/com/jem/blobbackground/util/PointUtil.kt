@@ -6,7 +6,11 @@ import kotlin.math.sin
 
 object PointUtil {
 
-    fun getPointOnCircle(radius: Float, angle: Float, positionOffset: PointF = PointF(0f, 0f)): PointF {
+    fun getPointOnCircle(
+        radius: Float,
+        angle: Float,
+        positionOffset: PointF = PointF(0f, 0f)
+    ): PointF {
         return PointF(
             (radius * cos(angle)) + positionOffset.x,
             (radius * sin(angle)) + positionOffset.y
