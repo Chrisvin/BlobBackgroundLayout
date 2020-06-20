@@ -84,7 +84,3 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 .idea/*
-gradlew.bat
-gradlew
-gradle/wrapper/gradle-wrapper.properties
-gradle/wrapper/gradle-wrapper.jar
