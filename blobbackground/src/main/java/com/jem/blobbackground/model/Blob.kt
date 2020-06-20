@@ -7,7 +7,6 @@ import android.graphics.*
 import android.view.animation.*
 import android.view.animation.Interpolator
 import androidx.core.animation.doOnRepeat
-import com.jem.blobbackground.util.PathUtil
 import com.jem.blobbackground.util.PointUtil
 import com.jem.blobbackground.util.RandomUtil
 
@@ -114,8 +113,6 @@ class Blob(
             quadTo(p0.x, p0.y, (p0.x + points[0].x) / 2f, (p0.y + points[0].y) / 2f)
             close()
         }
-        PathUtil.scalePath(path, 0.5f, 0.5f)
-        PathUtil.translatePath(path, 750f, 1000f)
     }
 
     private fun getPoints(): ArrayList<PointF> {
