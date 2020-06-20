@@ -18,9 +18,9 @@ class Blob(
     companion object {
         private val RADIAN_MULTIPLIER = 2f * Math.PI
 
-        private val DEFAULT_POINT_COUNT = 6
-        private val DEFAULT_RADIUS = 1000f
-        private val DEFAULT_MAX_OFFSET = 0f
+        private val DEFAULT_POINT_COUNT = 16
+        private val DEFAULT_RADIUS = 750f
+        private val DEFAULT_MAX_OFFSET = 100f
         private val DEFAULT_ANIMATION_STATE = true
         private val DEFAULT_ANIMATION_DURATION = 2000L
         private val DEFAULT_ANIMATION_INTERPOLATOR = LinearInterpolator()
