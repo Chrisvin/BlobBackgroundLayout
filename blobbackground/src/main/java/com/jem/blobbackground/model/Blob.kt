@@ -140,14 +140,46 @@ class Blob(
         canvas?.drawPath(latestPath, blobConfig.paint)
     }
 
+    /**
+     * Get a cloned blob config to ensure that value changes don't reflect on the blob
+     */
+    fun getConfiguration(): Configuration {
+        return Configuration(
+            pointCount = blobConfig.pointCount,
+            radius = blobConfig.radius,
+            maxOffset = blobConfig.maxOffset,
+            paint = blobConfig.paint,
+            shouldAnimateShape = blobConfig.shouldAnimateShape,
+            shapeAnimationDuration = blobConfig.shapeAnimationDuration,
+            shapeAnimationInterpolator = blobConfig.shapeAnimationInterpolator,
+            blobCenterPosition =  blobConfig.blobCenterPosition
+        )
+    }
+
+    /**
+     * Update the config of the blob
+     */
+    fun updateConfiguration(config: Configuration) {
+        blobConfig.apply {
+            this.pointCount = config.pointCount
+            this.radius = config.radius
+            this.maxOffset = config.maxOffset
+            this.paint = config.paint
+            this.shouldAnimateShape = config.shouldAnimateShape
+            this.shapeAnimationDuration = config.shapeAnimationDuration
+            this.shapeAnimationInterpolator = config.shapeAnimationInterpolator
+            this.blobCenterPosition =  config.blobCenterPosition
+        }
+    }
+
     data class Configuration(
-        val pointCount: Int = DEFAULT_POINT_COUNT,
-        val radius: Float = DEFAULT_RADIUS,
-        val maxOffset: Float = DEFAULT_MAX_OFFSET,
-        val paint: Paint = DEFAULT_PAINT,
-        val shouldAnimateShape: Boolean = DEFAULT_ANIMATION_STATE,
-        val shapeAnimationDuration: Long = DEFAULT_ANIMATION_DURATION,
-        val shapeAnimationInterpolator: Interpolator = DEFAULT_ANIMATION_INTERPOLATOR,
-        val blobCenterPosition: PointF = DEFAULT_POSITION
+        var pointCount: Int = DEFAULT_POINT_COUNT,
+        var radius: Float = DEFAULT_RADIUS,
+        var maxOffset: Float = DEFAULT_MAX_OFFSET,
+        var paint: Paint = DEFAULT_PAINT,
+        var shouldAnimateShape: Boolean = DEFAULT_ANIMATION_STATE,
+        var shapeAnimationDuration: Long = DEFAULT_ANIMATION_DURATION,
+        var shapeAnimationInterpolator: Interpolator = DEFAULT_ANIMATION_INTERPOLATOR,
+        var blobCenterPosition: PointF = DEFAULT_POSITION
     )
 }
