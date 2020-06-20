@@ -11,7 +11,7 @@ import com.jem.blobbackground.util.PointUtil
 import com.jem.blobbackground.util.RandomUtil
 
 class Blob(
-    private val updateView: () -> Unit,
+    private val onViewUpdate: () -> Unit,
     private val blobConfig: Configuration = Configuration()
 ) {
 
@@ -52,7 +52,7 @@ class Blob(
         recreatePath()
         percentageAnimator.addUpdateListener {
             recreatePath()
-            updateView.invoke()
+            onViewUpdate.invoke()
         }
         percentageAnimator.doOnRepeat {
             if (!blobConfig.shouldAnimateShape) {
@@ -70,7 +70,7 @@ class Blob(
     fun recreateBlob() {
         updateRandomizedValues()
         recreatePath()
-        updateView.invoke()
+        onViewUpdate.invoke()
     }
 
     private fun updateRandomizedValues() {
